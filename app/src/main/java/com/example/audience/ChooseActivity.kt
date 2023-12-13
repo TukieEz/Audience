@@ -33,19 +33,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.audience.ui.theme.BackGray
 
 class ChooseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val context = LocalContext.current
             Column(
                 modifier = Modifier
-                    .background(Color(0xFFCFCFCF))
+                    .background(BackGray)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                back_arrow(context)
+                back_arrow()
                 CenText()
                 choose("Артем", R.drawable.artyom,0.5f)
                 choose("Ильнур", R.drawable.ilnur,1f)
@@ -76,7 +76,8 @@ private fun choose(name: String, model: Int, weight: Float){
         }
 }
 @Composable
-private fun back_arrow(context: Context){
+public fun back_arrow(){
+    val context = transition()
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -103,7 +104,7 @@ private fun CenText(){
             fontSize = 40.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier
-                .padding(top=10.dp)
+                .padding(top = 10.dp)
                 .fillMaxWidth()
         )
-    }
+}

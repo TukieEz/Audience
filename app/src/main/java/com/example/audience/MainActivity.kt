@@ -1,5 +1,6 @@
-package com.example.audience
+ package com.example.audience
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -38,8 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.audience.ui.theme.AudienceTheme
+import com.example.audience.ui.theme.BackGray
 
-class MainActivity : ComponentActivity() {
+ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,11 +52,11 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 private fun home(){
-    val context = LocalContext.current
+    val context = transition()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFCFCFCF))
+            .background(BackGray)
     ) {
         Row(
             modifier = Modifier
@@ -68,7 +70,7 @@ private fun home(){
                     .size(50.dp)
                     .clip(CircleShape)
                     .clickable {
-                        //rememberNavController().navigate()
+                        System.exit(0)
                     },
                 painter = painterResource(id = R.drawable.uspu),
                 contentDescription = stringResource(id = R.string.app_name)
@@ -165,4 +167,9 @@ private fun home(){
         }
     }
 }
+ @Composable
+ public fun transition(): Context {
+     val context = LocalContext.current
+     return context
+ }
 
