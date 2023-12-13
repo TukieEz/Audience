@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Audience</string>
+    <string name="title_activity_choose">ChooseActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+</resources>
