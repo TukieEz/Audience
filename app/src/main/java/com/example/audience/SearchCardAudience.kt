@@ -14,7 +14,7 @@ data class SearchCardAudiences(
     val teacherMiddlename: String
 )
 public val Cards = listOf(
-    SearchCardAudiences(0,"1-435","Зайдуллина", "Светлана","Галлимуловна"),
+    SearchCardAudiences(R.drawable.section_1__4_,"1-435","Зайдуллина", "Светлана","Галлимуловна"),
     SearchCardAudiences(0,"1-432","Зайдуллина", "Светлана","Галлимуловна"),
     SearchCardAudiences(0,"1-442","Зайдуллина", "Светлана","Галлимуловна"),
     SearchCardAudiences(0,"1-441","Зайдуллина", "Светлана","Галлимуловна"),

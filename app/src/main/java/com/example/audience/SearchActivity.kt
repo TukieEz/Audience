@@ -1,10 +1,12 @@
 package com.example.audience
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -35,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.audience.ui.theme.AudienceTheme
 import com.example.audience.ui.theme.BackGray
 
@@ -63,41 +70,64 @@ class SearchActivity : ComponentActivity() {
                         itemsIndexed(
                             Cards
                         ){_, item ->
-                            AudienceCard(titleAud = item)
+                            AudienceCard(Aud = item)
                         }
                     }
                 }
             }
         }
     }
-@Preview
 @Composable
-private fun AudienceCard(titleAud: SearchCardAudiences){
+private fun AudienceCard(Aud: SearchCardAudiences){
+    var isOpen by remember {
+        mutableStateOf(false)
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp, vertical = 10.dp)
-            .clip(CircleShape)
-            .background(Color.White),
+            .clickable {
+                isOpen = !isOpen
+            }
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
+        if (isOpen) {
+            ShowImage(Aud = Aud)
+        } else{
+        Box(Modifier
+            .clip(CircleShape)
+            .fillMaxSize()
+            .background(Color.White)
+            .zIndex(1f)
         ) {
-            Text(
+            Row(
                 modifier = Modifier
-                    .padding(start = 15.dp, top = 15.dp)
-                    .fillMaxWidth(0.9f),
-                text = titleAud.audienceTitle
-            )
-            Image(
-                modifier = Modifier
-                    .size(50.dp)
                     .fillMaxWidth()
-                    .padding(end = 8.dp),
-                painter = painterResource(id = R.drawable.free_icon_play_2550046),
-                contentDescription = null
-            )
-
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 15.dp, top = 15.dp)
+                        .fillMaxWidth(0.9f),
+                    text = Aud.audienceTitle
+                )
+                Image(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .fillMaxWidth()
+                        .padding(end = 8.dp),
+                    painter = painterResource(id = R.drawable.free_icon_play_2550046),
+                    contentDescription = null
+                )
+            }
+        }
         }
     }
+}
+@Composable
+private fun ShowImage(Aud: SearchCardAudiences){
+    Image(painter = painterResource(id = Aud.audienceId),
+        contentDescription = null,
+        modifier = Modifier
+            .zIndex(1f)
+            .fillMaxSize()
+    )
 }
