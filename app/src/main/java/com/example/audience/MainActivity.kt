@@ -68,10 +68,7 @@ private fun home(){
             Image(
                 modifier = Modifier
                     .size(50.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        System.exit(0)
-                    },
+                    .clip(CircleShape),
                 painter = painterResource(id = R.drawable.uspu),
                 contentDescription = stringResource(id = R.string.app_name)
             )
@@ -145,6 +142,11 @@ private fun home(){
                     contentDescription = null,
                     modifier = Modifier
                         .size(150.dp)
+                        .clickable {
+                            val activity: MainActivity = MainActivity()
+                            activity.finish()
+                            java.lang.System.exit(0)
+                        }
                 )
                 Text(
                     text = "Выход",

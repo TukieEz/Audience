@@ -6,32 +6,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class SearchBar: ViewModel() {
-    private val _searchtext = MutableStateFlow("")
-    val searchtext = _searchtext.asStateFlow()
+class SearchViewModel : ViewModel() {
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
 
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
-
-    private val _searching = MutableStateFlow(Cards)
-    val searching = searchtext
-        .combine(_searching) { text, searching ->
-            if (text.isBlank()) {
-                searching
-            } else {
-                searching.filter {
-                    it.doesMathSearchQuery(text)
+    val searching = searchText.map { query ->
+        if (query.isBlank()) {
+            Cards
+        } else {
+            Cards.filter {
+                if(it is SearchCardAudiences) {
+                    it.doesMatchSearchQueryAud(query)
+                } else if (it is Persons){
+                    it.doesMatchSearchQueryPersons(query)
+                } else{
+                    false
                 }
             }
         }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            _searching.value
-        )
-    fun onSearchTextChange(text: String){
-        _searchtext.value = text
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Cards)
+
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
     }
 }
