@@ -4,4 +4,5 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_my_game">MyGame</string>
     <string name="title_activity_ar_menu">ArMenu</string>
+    <string name="title_activity_araud">ARAud</string>
 </resources>

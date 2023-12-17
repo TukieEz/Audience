@@ -1,5 +1,6 @@
 package com.example.audience
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -42,12 +43,13 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.audience.ui.theme.AudienceTheme
 import com.example.audience.ui.theme.BackGray
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class SearchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -116,6 +118,7 @@ private fun AudienceCard(Aud: Any){
 
 @Composable
 private fun ShowImage(Aud: Int, Who: Any){
+    val context = transition()
     Box {
         Image(
             painter = painterResource(id = Aud),
@@ -126,7 +129,11 @@ private fun ShowImage(Aud: Int, Who: Any){
         )
         if (Who is SearchCardAudiences) {
             Button(
-                onClick = {},
+                onClick = {
+                    val intent = Intent(context, ArMenu::class.java)
+                    intent.putExtra("AudModel", Who.audienceModel)
+                    context.startActivity(intent)
+                },
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.7f)

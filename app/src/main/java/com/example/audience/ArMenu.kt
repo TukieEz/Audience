@@ -58,11 +58,19 @@ class ArMenu : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     ) {
                     Box(modifier = Modifier.fillMaxSize()){
-                        val currentModel = remember {
-                            mutableStateOf("aud333")
+                        val intent = intent
+                        if(intent.extras == null){
+                            val currentModel = remember {
+                                mutableStateOf("4floor")
+                            }
+                            ARScreen(currentModel.value)
+                            Menu(modifier = Modifier.align(Alignment.BottomCenter)){
+                                currentModel.value = it
+                            }
+                        } else {
+                            val model = intent.getStringExtra("AudModel")
+                            ARScreen(model = model.toString())
                         }
-                        ARScreen(currentModel.value)
-                        Menu(modifier = Modifier.align(Alignment.BottomCenter))
                     }
                 }
             }
@@ -71,27 +79,17 @@ class ArMenu : ComponentActivity() {
 }
 
 @Composable
-fun Menu(modifier: Modifier){
+fun Menu(modifier: Modifier, onClick:(String)->Unit){
     var currentIndex by remember {
         mutableStateOf(0)
     }
-    val itemsList = listOf(
-        SearchCardAudiences(R.drawable._31,"1-431"),
-        SearchCardAudiences(R.drawable._32,"1-432"),
-        SearchCardAudiences(R.drawable._33,"1-433"),
-        SearchCardAudiences(R.drawable._34,"1-434"),
-        SearchCardAudiences(R.drawable._35,"1-435"),
-        SearchCardAudiences(R.drawable._36,"1-436"),
-        SearchCardAudiences(R.drawable._40,"1-440"),
-        SearchCardAudiences(R.drawable._41,"1-441"),
-        SearchCardAudiences(R.drawable._42,"1-442"),
-        SearchCardAudiences(R.drawable._43,"1-443"),
-        SearchCardAudiences(R.drawable._44,"1-444"),
-        SearchCardAudiences(R.drawable._45,"1-445"),
-        SearchCardAudiences(R.drawable._46,"1-446"),
-    )
+    val itemList = Cards.filterIsInstance<SearchCardAudiences>()
+    val newItem = SearchCardAudiences(0,"4 этаж", "4floor")
+    val itemsList = listOf(newItem) + itemList
+
     fun updateIndex(offset: Int){
         currentIndex = (currentIndex+offset + itemsList.size) % itemsList.size
+        onClick(itemsList[currentIndex].audienceModel)
     }
     Row(
         modifier = Modifier
@@ -107,13 +105,12 @@ fun Menu(modifier: Modifier){
                 contentDescription = "previous"
             )
         }
-        val audText = itemsList[currentIndex].audienceTitle
+        //val audText = itemsList[currentIndex].audienceTitle
         Text(
-            text = audText,
+            text = itemsList[currentIndex].audienceTitle,
             fontSize = 20.sp,
             textAlign = TextAlign.Center
         )
-
         IconButton(onClick = {
             updateIndex(1)
         }) {
@@ -147,7 +144,8 @@ fun ARScreen(model: String) {
                 arSceneView.planeRenderer.isShadowReceiver = false
                 modelNode.value = ArModelNode(arSceneView.engine, PlacementMode.INSTANT).apply {
                     loadModelGlbAsync(
-                        glbFileLocation = "models/aud333.glb"
+                        glbFileLocation = "models/${model}.glb",
+                        scaleToUnits = 0.8f
                     ) {
 
                     }
@@ -169,14 +167,14 @@ fun ARScreen(model: String) {
             Button(onClick = {
                 modelNode.value?.anchor()
             }, modifier = Modifier.align(Alignment.Center)) {
-                Text(text = "Place It")
+                Text(text = "Зафиксировать")
             }
         }
     }
 
     LaunchedEffect(key1 = model){
         modelNode.value?.loadModelGlbAsync(
-            glbFileLocation = "models/aud333.glb",
+            glbFileLocation = "models/${model}.glb",
             scaleToUnits = 0.8f
         )
         Log.e("errorloading","ERROR LOADING MODEL")
