@@ -22,6 +22,7 @@ data class SearchCardAudiences(
     }
 }
 public val Cards = listOf(
+
     SearchCardAudiences(R.drawable._31,"1-431"),
     SearchCardAudiences(R.drawable._32,"1-432"),
     SearchCardAudiences(R.drawable._33,"1-433"),

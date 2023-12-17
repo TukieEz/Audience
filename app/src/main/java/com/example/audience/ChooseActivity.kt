@@ -62,7 +62,7 @@ private fun choose(name: String, model: Int, weight: Float){
                     .fillMaxSize()
                     .size(300.dp)
                     .clickable {
-                        val intent = Intent(context, MyGame::class.java)
+                        val intent = Intent(context, ArMenu::class.java)
                         context.startActivity(intent)
                     },
                 painter = painterResource(id = model),

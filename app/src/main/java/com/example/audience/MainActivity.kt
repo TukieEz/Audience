@@ -90,7 +90,7 @@ private fun home(){
                     modifier = Modifier
                         .size(300.dp)
                         .clickable {
-                            val intent = Intent(context, ChooseActivity::class.java)
+                            val intent = Intent(context, ArMenu::class.java)
                             context.startActivity(intent)
                         },
                     painter = painterResource(id = R.drawable.free_icon_play_button_109197),
@@ -137,6 +137,7 @@ private fun home(){
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+
                 Image(
                     painter = painterResource(id = R.drawable.free_icon_exit_402718),
                     contentDescription = null,

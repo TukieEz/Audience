@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -76,7 +78,7 @@ private fun AudienceCard(Aud: Any){
             }
     ) {
         if (isOpen) {
-            ShowImage(Aud = ImgId)
+            ShowImage(Aud = ImgId, Aud)
         } else{
         Box(
             Modifier
@@ -110,62 +112,32 @@ private fun AudienceCard(Aud: Any){
         }
     }
 }
+
+
 @Composable
-private fun AudienceCar(Au: Persons){
-    var isOpen by remember {
-        mutableStateOf(false)
-    }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 5.dp, vertical = 10.dp)
-            .clickable {
-                isOpen = !isOpen
-            }
-    ) {
-        if (isOpen) {
-            ShowImage(Aud = Au.personId)
-        } else{
-            Box(
-                Modifier
-                    .clip(CircleShape)
-                    .fillMaxSize()
-                    .background(Color.White)
-                    .zIndex(1f)
+private fun ShowImage(Aud: Int, Who: Any){
+    Box {
+        Image(
+            painter = painterResource(id = Aud),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxHeight(0.8f)
+                .fillMaxWidth()
+        )
+        if (Who is SearchCardAudiences) {
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.7f)
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 8.dp),
+                colors = ButtonDefaults.buttonColors(BackGray)
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 15.dp, top = 15.dp)
-                            .fillMaxWidth(0.9f),
-                        text = "${Au.surname} ${Au.name} ${Au.middlename}"
-                    )
-                    Image(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .fillMaxWidth()
-                            .padding(end = 8.dp),
-                        painter = painterResource(id = R.drawable.free_icon_play_2550046),
-                        contentDescription = null
-                    )
-                }
+                Text("Просмотр")
             }
         }
     }
-}
-
-
-@Composable
-private fun ShowImage(Aud: Int){
-    Image(painter = painterResource(id = Aud),
-        contentDescription = null,
-        modifier = Modifier
-            .zIndex(1f)
-            .fillMaxSize()
-    )
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
